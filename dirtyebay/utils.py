@@ -14,7 +14,7 @@ region = make_region().configure(
     arguments={
         "filename": "{dir}/{version}.dbm".format(
             dir=user_cache_dir('anentropic', 'dirtyebay'),
-            version=__version__
+            version='dirtyebay_{}'.format(__version__)
         )
     }
 )
