@@ -48,12 +48,7 @@ NSMAP = {
     'soapenv': namespaces.SOAP_1_1,
     'ebl': namespaces.EBAY,
     'xsi': namespaces.XSI,
-    None: namespaces.EBAY
 }
-
-SOAP_1_1_EL = ElementMaker(namespace=namespaces.SOAP_1_1, nsmap=NSMAP)
-SOAP_1_2_EL = ElementMaker(namespace=namespaces.SOAP_1_2, nsmap=NSMAP)
-MSG_EL = ElementMaker(nsmap=NSMAP)
 
 
 def dicttoxml(obj, factory):
@@ -84,6 +79,8 @@ class APIBase:
     SANDBOX_ENDPOINT = None
 
     SOAP_VERSION = None
+
+    DEFAULT_NAMESPACE = namespaces.EBAY
 
     def __init__(self, schema_url=None, sandbox=False, **kwargs):
         # eBay API methods are all CamelCase so it should be safe to set
@@ -181,15 +178,29 @@ class APIBase:
         # assume the class name ends in 'API'
         return self.__class__.__name__[:-3].lower()
 
+    def _nsmap(self):
+        nsmap = NSMAP.copy()
+        nsmap[None] = self.DEFAULT_NAMESPACE
+        return nsmap
+
     def get_soap_el_factory(self):
         if self.SOAP_VERSION == '1.1':
-            return SOAP_1_1_EL
+            return ElementMaker(
+                namespace=namespaces.SOAP_1_1,
+                nsmap=self._nsmap()
+            )
         elif self.SOAP_VERSION == '1.2':
-            return SOAP_1_2_EL
+            return ElementMaker(
+                namespace=namespaces.SOAP_1_2,
+                nsmap=self._nsmap()
+            )
         else:
             raise ValueError(
                 "Invalid SOAP_VERSION: {}".format(self.SOAP_VERSION)
             )
+
+    def get_msg_el_factory(self):
+        return ElementMaker(nsmap=self._nsmap())
 
     def get_http_headers(self, name):
         return {}
@@ -216,12 +227,13 @@ class APIBase:
 
     def execute(self, name, params):
         request_name = '{}Request'.format(name)  # can we rely on this?
-        body_el = getattr(MSG_EL, request_name)
+        factory = self.get_msg_el_factory()
+        body_el = getattr(factory, request_name)
         envelope = self.make_envelope([
-            body_el(*dicttoxml(params, MSG_EL))
+            body_el(*dicttoxml(params, factory))
         ])
 
-        print etree.tostring(envelope, pretty_print=True)
+        log.debug(etree.tostring(envelope, pretty_print=True))
 
         response = self._request(name, envelope)
         return self.objectify_response(name, response)
@@ -285,14 +297,15 @@ class TradingAPI(APIBase):
 
     def get_soap_header(self):
         soap = self.get_soap_el_factory()
+        payload = self.get_msg_el_factory()
         return soap.Header(
-            MSG_EL.RequesterCredentials(
-                MSG_EL.Credentials(
-                    MSG_EL.AppID(self.app_id),
-                    MSG_EL.DevId(self.dev_id),
-                    MSG_EL.AuthCert(self.cert_id),
+            payload.RequesterCredentials(
+                payload.Credentials(
+                    payload.AppID(self.app_id),
+                    payload.DevId(self.dev_id),
+                    payload.AuthCert(self.cert_id),
                 ),
-                MSG_EL.eBayAuthToken(self.token)
+                payload.eBayAuthToken(self.token)
             )
         )
 
@@ -356,6 +369,8 @@ class FindingAPI(APIBase):
     )
 
     SOAP_VERSION = '1.2'
+
+    DEFAULT_NAMESPACE = namespaces.EBAY_SEARCH
 
     def get_http_headers(self, name):
         site_id = int(self.site_id, 10)

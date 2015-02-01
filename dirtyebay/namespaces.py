@@ -1,4 +1,5 @@
 EBAY = 'urn:ebay:apis:eBLBaseComponents'
+EBAY_SEARCH = 'http://www.ebay.com/marketplace/search/v1/services'
 SOAP_1_1 = 'http://schemas.xmlsoap.org/soap/envelope/'
 SOAP_1_2 = 'http://www.w3.org/2003/05/soap-envelope'
 XSD = 'http://www.w3.org/2001/XMLSchema'
