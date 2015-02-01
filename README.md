@@ -35,7 +35,7 @@ I previously made this: https://github.com/anentropic/ebaysuds
 
 I thought it was nice that eBay provided a WSDL and Python had Suds and by putting the two together you get a very nice interface where responses are intelligently deserialized into appropriate python objects etc.
 
-However the eBay TradingAPI WSDL is enormous (> 5MB) and the resulting memory usage of Suds was unacceptable (> 360MB).
+However the eBay TradingAPI WSDL is enormous (> 5MB) and the resulting memory usage of Suds was unacceptable (> 360MB). So ... no Suds => dirtyebay
 
 There is an official eBay Python SDK _which you should probably just use instead_:  
 https://github.com/timotheus/ebaysdk-python
