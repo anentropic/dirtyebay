@@ -1,0 +1,26 @@
+# optional
+# --------
+# [soap]
+# trading_schema=XXXXX
+# shopping_schema=XXXXX
+#   (eg if you host a pruned wsdl, put the url here)
+#   (for local files you can use file:/// urls of course)
+#
+# (can also override the default endpoints here)
+# trading_api=https://api.sandbox.ebay.com/wsapi
+# shopping_api=http://open.api.ebay.com/shopping
+#   (don't normally need to specify the endpoints)
+
+# app_id and site_id are required for all APIs
+# dev_id and cert_id are only required for the Trading API
+[keys]
+dev_id=XXXXX
+app_id=XXXXX
+cert_id=XXXXX
+
+[site]
+site_id=0
+
+# only required for Trading API and BusinessPoliciesAPI:
+[auth]
+token = XXXXX
