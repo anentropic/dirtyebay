@@ -1,6 +1,6 @@
 # dirtyebay
 
-An eBay API client which respects (XSD) schema[*](caveat) and talks SOAP, but doesn't use Suds.
+An eBay API client which respects (XSD) schema[*](#caveat) and talks SOAP, but doesn't use Suds.
 
 With a clean and simple interface and low memory usage.
 
@@ -45,7 +45,7 @@ They have a pretty nice interface and avoid using Suds and SOAP so memory usage 
 
 ### Why make this then?
 
-eBay provide an XSD for some services, and anyway a WSDL file typically contains a whole XSD schema embedded in it (along with descriptions of endpoints and possible calls)... so I started playing around with that and found to my surprise that using `lxml.objectify` in conjunction with the XSD schema[*](caveat) gives you all the nice deserialization like Suds did, but with < 10% the memory usage (~ 30-35MB). And it's pretty fast too.
+eBay provide an XSD for some services, and anyway a WSDL file typically contains a whole XSD schema embedded in it (along with descriptions of endpoints and possible calls)... so I started playing around with that and found to my surprise that using `lxml.objectify` in conjunction with the XSD schema[*](#caveat) gives you all the nice deserialization like Suds did, but with < 10% the memory usage (~ 30-35MB). And it's pretty fast too.
 
 This seemed like a good compromise. Also, I'd already made some stuff on top of `ebaysuds`, so I decided to do a rewrite that preserves the interface but uses XSD schema instead of Suds+WSDL hell. 
 
