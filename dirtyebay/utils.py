@@ -141,10 +141,6 @@ def parser_from_schema(schema_url, require_version=True):
     Returns an XSD-schema-enabled lxml parser from a WSDL or XSD
 
     `schema_url` can of course be local path via file:// url
-
-    NOTE:
-    currently we're not making use of the resulting parser(!) due to:
-    https://bugs.launchpad.net/lxml/+bug/1416853
     """
     schema_tree = etree.parse(schema_url)
 
