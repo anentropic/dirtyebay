@@ -125,16 +125,6 @@ def version_from_wsdl(wsdl_tree):
         return version_el.text
 
 
-def _make_safe(schema_el):
-    """
-    Workaround for segfault bug
-    https://bugs.launchpad.net/lxml/+bug/1415907
-
-    yes, tostring->fromstring roundtrip is ugly and inefficient
-    """
-    return etree.fromstring(etree.tostring(schema_el))
-
-
 @region.cache_on_arguments()
 def parser_from_schema(schema_url, require_version=True):
     """
@@ -157,8 +147,6 @@ def parser_from_schema(schema_url, require_version=True):
     if root.tag == '{%s}definitions' % namespaces.WSDL:
         # wsdl should contain an embedded schema
         schema_el = schema_tree.find('wsdl:types/xs:schema', namespaces=NS_MAP)
-        # hack to avoid segfault:
-        schema_el = _make_safe(schema_el)
         version = get_version(root, version_from_wsdl)
     else:
         schema_el = root

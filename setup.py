@@ -10,12 +10,15 @@ setup(
     packages=['dirtyebay'],
     license='MIT',
     long_description=open('pypi.rst').read(),
-    description='An eBay API client which respects (XSD) schema and talks SOAP but doesn\'t use Suds',
+    description=(
+        "An eBay API client which respects (XSD) schema and talks SOAP but"
+        " doesn't use Suds"
+    ),
     author='Anentropic',
     author_email='ego@anentropic.com',
     url='https://github.com/anentropic/dirtyebay',
     install_requires=[
-        'lxml',
+        'lxml >= 3.4.2',
         'dogpile.cache',
         'appdirs',
         'requests',
