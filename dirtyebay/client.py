@@ -251,7 +251,7 @@ class APIBase:
         # tree is spoiled by namespaces (would have to use getattr everywhere)
         return objectify.fromstring(
             etree.tostring(body_root),
-            # parser=self.parser
+            parser=self.parser
         )
 
     def get_soap_header(self):

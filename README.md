@@ -49,4 +49,4 @@ eBay provide an XSD for some services, and anyway a WSDL file typically contains
 
 This seemed like a good compromise. Also, I'd already made some stuff on top of `ebaysuds`, so I decided to do a rewrite that preserves the interface but uses XSD schema instead of Suds+WSDL hell. 
 
-_* despite the promise of schema-fied goodness, currently this is stymied by an [apparent bug in lxml](https://bugs.launchpad.net/lxml/+bug/1416853)._
+_* for what this actually gives in practice see: http://lxml.de/objectify.html#asserting-a-schema_
