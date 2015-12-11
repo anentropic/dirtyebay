@@ -40,7 +40,7 @@ However the eBay TradingAPI WSDL is enormous (> 5MB) and the resulting memory us
 There is an official eBay Python SDK _which you should probably just use instead_:  
 https://github.com/timotheus/ebaysdk-python
 
-They have a pretty nice interface and avoid using Suds and SOAP so memory usage is fine (~ 20MB on comparable calls). The trade-off is they don't make any use of the schema so deserialization is (neccessarily) best-effort and a bit crufty.
+They have a pretty nice interface and avoid using Suds and SOAP so memory usage is fine (~ 20MB on comparable calls). The trade-off is they don't make any use of the schema so deserialization is (necessarily) best-effort and a bit crufty.
 
 
 ### Why make this then?
